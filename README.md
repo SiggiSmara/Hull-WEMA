@@ -1,6 +1,6 @@
 # Hull-WEMA
 
-### A New Zero-Lag Approach in MA family
+### A New Zero-Lag Approach in MAs family
 
 This repository contains all the project codes, revision history, and data samples used in the Hull-WEMA project.
 We welcome any comments, suggestions, and questions which can be addressed to the email provided below.
