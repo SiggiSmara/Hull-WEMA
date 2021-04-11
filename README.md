@@ -9,6 +9,7 @@ We welcome any comments, suggestions, and questions which can be addressed to th
 
 For more detail information related to the proposed method and previous study, please refers to following publications:
 1. Hansun, S. (2013). A New Approach of Moving Average Method in Time Series Analysis. Proceedings of 2013 Conference on New Media Studies, Tangerang, Indonesia. doi:10.1109/CoNMedia.2013.6708545
+2. Hansun, S., Charles, V., Gherman, T., Subanar, and Indrati, C.R. (2021). A tuned Holt-Winters white-box model for COVID-19 prediction. International Journal of Management and Decision Making, in press. doi:10.1504/IJMDM.2021.10034422
 
 *DATA SOURCE*
 * The main data source is taken from *COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University*. https://github.com/CSSEGISandData/COVID-19
