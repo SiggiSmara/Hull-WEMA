@@ -24,4 +24,4 @@ We would like to acknowledge the contribution of many parties, especially for th
 
 *TERMS OF USE*
 
-For publications that use the codes and data provided in this repository, please cite: "Hansun, S. Hull-WEMA: A New Zero-Lag Approach in MA family. https://github.com/senghansun/Hull-WEMA"
+For publications that use the codes and data provided in this repository, please cite: "Hansun, S. Hull-WEMA: A New Zero-Lag Approach in MAs family. https://github.com/senghansun/Hull-WEMA"
