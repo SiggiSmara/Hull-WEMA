@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 from pathlib import Path
+from time import time
 
 # turn off FutureWarning
 import warnings
@@ -20,7 +21,7 @@ countries = data["Country"]
 # extract the starting date up to the last date
 x = data.columns[4:-1]
 # print(x)
-# print(len(x))
+print(len(x))
 
 # %%
 ## last-date confirmed cases analysis ##
@@ -93,9 +94,7 @@ def HMA(src:pl.Series, period):
     wma_half = WMA(src, period // 2)
     wma_full = WMA(src, period)
     hma_input = 2 * wma_half - wma_full
-    hma = np.empty(period-1)
-    hma[:] = np.nan
-    hma = pl.Series(hma, nan_to_null=True)
+    hma = pl.select(pl.repeat(None, period-1, dtype=pl.Float64)).to_series()
     hma.append(WMA(hma_input[period-1:], int(math.sqrt(period))))
     return hma
 
@@ -125,6 +124,7 @@ def errCalc(src:pl.Series, pred:pl.Series, startInd:int):
 # <<INPUT>> - read the 'considered' country data
 country = 'US'
 country = 'Argentina'
+
 def opt_hama(country="US"):
     data = pl.read_csv(data_path / f"{country}_all.csv")
     res = {}
@@ -189,32 +189,32 @@ def opt_hama(country="US"):
     allWEMA = finPredWEMA.append(wemaTest)
     allHullWEMA = finPredHullWEMA.append(hullWemaTest)
 
-    fig = plt.figure(figsize=(20,10)) 
-    ax = fig.add_subplot(111)
-    ax.plot(x, procData, label="Actual")
-    ax.plot(x, finPredHMA, label="HMA Prediction")
-    ax.plot(x, allWEMA, label="WEMA Prediction")
-    ax.plot(x, allHullWEMA, label="Hull WEMA Prediction")
+    # fig = plt.figure(figsize=(20,10)) 
+    # ax = fig.add_subplot(111)
+    # ax.plot(x, procData, label="Actual")
+    # ax.plot(x, finPredHMA, label="HMA Prediction")
+    # ax.plot(x, allWEMA, label="WEMA Prediction")
+    # ax.plot(x, allHullWEMA, label="Hull WEMA Prediction")
 
-    ind = [i for i in range(0, len(x), 7)]
-    date = [x[i] for i in ind]
-    plt.xticks(ind, date, rotation=60)
-    plt.legend()
+    # ind = [i for i in range(0, len(x), 7)]
+    # date = [x[i] for i in ind]
+    # plt.xticks(ind, date, rotation=60)
+    # plt.legend()
 
-    ax.set_title("Prediction Plot - " + country, fontsize=18, fontweight='bold')
-    ax.set_xlabel('Time', fontsize=15)
-    ax.set_ylabel('Number of confirmed COVID-19 cases', fontsize=15)
+    # ax.set_title("Prediction Plot - " + country, fontsize=18, fontweight='bold')
+    # ax.set_xlabel('Time', fontsize=15)
+    # ax.set_ylabel('Number of confirmed COVID-19 cases', fontsize=15)
 
-    xTrain = int(len(trainData)/2)
-    yTrain = int(max(trainData))
-    xTest = len(trainData) + int(len(testData)/2)
-    yTest = int(min(testData))
-    ax.text(xTrain, yTrain, 'Train', fontsize=12, color='blue', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
-    ax.text(xTest, yTest, 'Test', fontsize=12, color='red', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
-    plt.axvline(x=len(trainData), color='k', linestyle='--')
+    # xTrain = int(len(trainData)/2)
+    # yTrain = int(max(trainData))
+    # xTest = len(trainData) + int(len(testData)/2)
+    # yTest = int(min(testData))
+    # ax.text(xTrain, yTrain, 'Train', fontsize=12, color='blue', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
+    # ax.text(xTest, yTest, 'Test', fontsize=12, color='red', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
+    # plt.axvline(x=len(trainData), color='k', linestyle='--')
 
-    fig.savefig('Prediction Plot - ' + country + '.jpg', bbox_inches = 'tight')
-    plt.close(fig)
+    # fig.savefig('Prediction Plot - ' + country + '.jpg', bbox_inches = 'tight')
+    # plt.close(fig)
     return res
 
 
@@ -231,6 +231,7 @@ top_countries = [
     'US'
 ]
 res = {}
+start_tick = time()
 for country in top_countries:
     res[country] = opt_hama(country)
     print((
@@ -241,6 +242,7 @@ for country in top_countries:
         res[country]["Hull-WEMA"]["MAPE"],
     ))
 
+print("Time taken: ", time() - start_tick)
 
 # Scatter plot for methods accuracy comparison
 

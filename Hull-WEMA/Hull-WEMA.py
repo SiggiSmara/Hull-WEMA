@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 from pathlib import Path
+from time import time
 
 # turn off FutureWarning
 import warnings
@@ -281,87 +282,87 @@ def opt_hama(country="US"):
     allWEMA = finPredWEMA + wemaTest
     allHullWEMA = finPredHullWEMA + hullWemaTest
 
-    # plot the actual and prediction results
-    fig = plt.figure(figsize=(20,10)) 
-    ax = fig.add_subplot(111)
-    ax.plot(x, procData, label="Actual")
-    ax.plot(x, finPredHMA, label="HMA Prediction")
-    ax.plot(x, allWEMA, label="WEMA Prediction")
-    ax.plot(x, allHullWEMA, label="Hull WEMA Prediction")
+    # # plot the actual and prediction results
+    # fig = plt.figure(figsize=(20,10)) 
+    # ax = fig.add_subplot(111)
+    # ax.plot(x, procData, label="Actual")
+    # ax.plot(x, finPredHMA, label="HMA Prediction")
+    # ax.plot(x, allWEMA, label="WEMA Prediction")
+    # ax.plot(x, allHullWEMA, label="Hull WEMA Prediction")
 
-    ind = [i for i in range(0, len(x), 7)]
-    date = [x[i] for i in ind]
-    plt.xticks(ind, date, rotation=60)
-    plt.legend()
+    # ind = [i for i in range(0, len(x), 7)]
+    # date = [x[i] for i in ind]
+    # plt.xticks(ind, date, rotation=60)
+    # plt.legend()
 
-    # title
-    ax.set_title("Prediction Plot - " + country, fontsize=18, fontweight='bold')
+    # # title
+    # ax.set_title("Prediction Plot - " + country, fontsize=18, fontweight='bold')
 
-    # axis title
-    ax.set_xlabel('Time', fontsize=15)
-    ax.set_ylabel('Number of confirmed COVID-19 cases', fontsize=15)
+    # # axis title
+    # ax.set_xlabel('Time', fontsize=15)
+    # ax.set_ylabel('Number of confirmed COVID-19 cases', fontsize=15)
 
-    # text
-    xTrain = int(len(trainData)/2)
-    yTrain = int(max(trainData))
-    xTest = len(trainData) + int(len(testData)/2)
-    yTest = int(min(testData))
-    ax.text(xTrain, yTrain, 'Train', fontsize=12, color='blue', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
-    ax.text(xTest, yTest, 'Test', fontsize=12, color='red', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
-    plt.axvline(x=len(trainData), color='k', linestyle='--')
+    # # text
+    # xTrain = int(len(trainData)/2)
+    # yTrain = int(max(trainData))
+    # xTest = len(trainData) + int(len(testData)/2)
+    # yTest = int(min(testData))
+    # ax.text(xTrain, yTrain, 'Train', fontsize=12, color='blue', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
+    # ax.text(xTest, yTest, 'Test', fontsize=12, color='red', bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
+    # plt.axvline(x=len(trainData), color='k', linestyle='--')
 
-    fig.savefig('Prediction Plot - ' + country + '.jpg', bbox_inches = 'tight')
-    plt.close(fig)
-    # alternative plot
-    # divide HMA prediction results for Train and Test phases
-    trainHMA = finPredHMA[0:int(split * len(finPredHMA))]
-    testHMA = finPredHMA[int(split * len(finPredHMA)):]
-    # divide the x axis values for Train and Test phases
-    x1 = x[0:int(split * len(procData))]
-    x2 = x[int(split * len(procData)):]
+    # fig.savefig('Prediction Plot - ' + country + '.jpg', bbox_inches = 'tight')
+    # plt.close(fig)
+    # # alternative plot
+    # # divide HMA prediction results for Train and Test phases
+    # trainHMA = finPredHMA[0:int(split * len(finPredHMA))]
+    # testHMA = finPredHMA[int(split * len(finPredHMA)):]
+    # # divide the x axis values for Train and Test phases
+    # x1 = x[0:int(split * len(procData))]
+    # x2 = x[int(split * len(procData)):]
 
-    # plot the graph
-    fig = plt.figure(figsize=(15,8))
-    # make two subplots
-    ax1 = plt.subplot2grid((1, 5), (0, 0), colspan=3)
-    ax2 = plt.subplot2grid((1, 5), (0, 3), colspan=2)
+    # # plot the graph
+    # fig = plt.figure(figsize=(15,8))
+    # # make two subplots
+    # ax1 = plt.subplot2grid((1, 5), (0, 0), colspan=3)
+    # ax2 = plt.subplot2grid((1, 5), (0, 3), colspan=2)
 
-    # First subplot for TRAIN phase
-    ax1.plot(x1, procData[0:int(split * len(procData))], label="Actual")
-    ax1.plot(x1, trainHMA, label="HMA Prediction")
-    ax1.plot(x1, finPredWEMA, label="WEMA Prediction")
-    ax1.plot(x1, finPredHullWEMA, label="Hull WEMA Prediction")
-    # title and axis titles
-    ax1.set_title("Train Phase", fontsize=18, fontweight='bold')
-    ax1.set_xlabel('Time', fontsize=15)
-    ax1.set_ylabel('Number of confirmed COVID-19 cases', fontsize=15)
-    # xticks and legends
-    ind = [i for i in range(0, len(x1), 14)]
-    date = [x1[i] for i in ind]
-    ax1.set_xticks(ind)
-    ax1.set_xticklabels(date, rotation=40)
-    ax1.legend()
+    # # First subplot for TRAIN phase
+    # ax1.plot(x1, procData[0:int(split * len(procData))], label="Actual")
+    # ax1.plot(x1, trainHMA, label="HMA Prediction")
+    # ax1.plot(x1, finPredWEMA, label="WEMA Prediction")
+    # ax1.plot(x1, finPredHullWEMA, label="Hull WEMA Prediction")
+    # # title and axis titles
+    # ax1.set_title("Train Phase", fontsize=18, fontweight='bold')
+    # ax1.set_xlabel('Time', fontsize=15)
+    # ax1.set_ylabel('Number of confirmed COVID-19 cases', fontsize=15)
+    # # xticks and legends
+    # ind = [i for i in range(0, len(x1), 14)]
+    # date = [x1[i] for i in ind]
+    # ax1.set_xticks(ind)
+    # ax1.set_xticklabels(date, rotation=40)
+    # ax1.legend()
 
-    # Second subplot for TEST phase
-    ax2.plot(x2, procData[int(split * len(procData)):], label="Actual")
-    ax2.plot(x2, testHMA, label="HMA Prediction")
-    ax2.plot(x2, wemaTest, label="WEMA Prediction")
-    ax2.plot(x2, hullWemaTest, label="Hull WEMA Prediction")
-    # title and axis titles
-    ax2.set_title("Test Phase", fontsize=18, fontweight='bold')
-    ax2.set_xlabel('Time', fontsize=15)
-    ax2.yaxis.tick_right()
-    # xticks and legends
-    ind = [i for i in range(0, len(x2), 14)]
-    date = [x2[i] for i in ind]
-    ax2.set_xticks(ind)
-    ax2.set_xticklabels(date, rotation=40)
-    ax2.legend()
+    # # Second subplot for TEST phase
+    # ax2.plot(x2, procData[int(split * len(procData)):], label="Actual")
+    # ax2.plot(x2, testHMA, label="HMA Prediction")
+    # ax2.plot(x2, wemaTest, label="WEMA Prediction")
+    # ax2.plot(x2, hullWemaTest, label="Hull WEMA Prediction")
+    # # title and axis titles
+    # ax2.set_title("Test Phase", fontsize=18, fontweight='bold')
+    # ax2.set_xlabel('Time', fontsize=15)
+    # ax2.yaxis.tick_right()
+    # # xticks and legends
+    # ind = [i for i in range(0, len(x2), 14)]
+    # date = [x2[i] for i in ind]
+    # ax2.set_xticks(ind)
+    # ax2.set_xticklabels(date, rotation=40)
+    # ax2.legend()
 
-    fig.suptitle(country, fontsize=24, fontweight='bold')
+    # fig.suptitle(country, fontsize=24, fontweight='bold')
 
-    fig.savefig('Train-Test Prediction Plot - ' + country + '.jpg', bbox_inches = 'tight')
-    plt.close(fig)
+    # fig.savefig('Train-Test Prediction Plot - ' + country + '.jpg', bbox_inches = 'tight')
+    # plt.close(fig)
     return res
 
 
@@ -378,6 +379,7 @@ top_countries = [
     'US'
 ]
 res = {}
+start_tick = time()
 for country in top_countries:
     # print(country)
     res[country] = opt_hama(country)
@@ -389,6 +391,7 @@ for country in top_countries:
         res[country]["Hull-WEMA"]["MAPE"],
     ))
 
+print("Time taken: ", time() - start_tick)
 
 # Scatter plot for methods accuracy comparison
 
